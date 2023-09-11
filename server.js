@@ -11,11 +11,13 @@ app.post('/api/download', (req, res) => {
 
     // IMPORTANT: Be VERY careful with this; running shell commands
     // from user input can be risky. Always sanitize and validate the input.
-    const formatCommand = format ? `-f ${format}` : '';
-    exec(`spotdl ${url} ${formatCommand}`, (error, stdout, stderr) => {
+    exec(`spotdl ${url}`, (error, stdout, stderr) => {
         if (error) {
             return res.status(500).json({ error: 'Download failed' });
         }
+
+        // You'd usually do something more sophisticated here, like
+        // sending back a download link for the file.
         res.status(200).json({ success: true, message: 'Downloaded successfully!' });
     });
 });
